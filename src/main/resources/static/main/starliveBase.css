@@ -1,0 +1,79 @@
+#header {
+    position: relative;
+    z-index: 3000;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.07);
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.07);
+}
+.gnb_top {
+    position: relative;
+    padding: 0 20px;
+    height: 60px;
+}
+
+.gnb_top .btn_v {
+    background-position: -10px -60px;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 30px;
+    overflow: hidden;
+}
+.gnb_top .btn_v, .gnb_top .navigation .beyond_v:before, .gnb_info .btn_search:before, .gnb_info .search_area .btn_search:before, .gnb_info .icon_arr, .login_area .btn_more:before, .login_area .lyr .txt.-profile:before, .login_area .lyr .txt.-my:before, .login_area .lyr .txt.-vbc:before, .login_area .lyr .btn_logout .inner:before, #header.header_series_home .gnb_info .btn_search:before, #header.header_tag .gnb_info .btn_search:before, #header.header_series_home .gnb_info .search_area .btn_search:before, #header.header_tag .gnb_info .search_area .btn_search:before, .pop_lyr_new .button_delete, .pop_lyr_new .checkbox_label:before, .search_top .btn_search {
+    display: inline-block;
+    vertical-align: top;
+    background-image: url(https://ssl.pstatic.net/static/m/vlive/pc/2020/10/26/sp_common_svg.png);
+    background-repeat: no-repeat;
+}
+
+.gnb_top .navigation {
+    float: left;
+    margin-top: 11px;
+}
+
+.gnb_top .navigation a.on span {
+    border-bottom: 3px solid #3e3d42;
+}
+
+.gnb_top .navigation a span {
+    display: block;
+    height: 21px;
+    background: 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+}
+
+.gnb_top .navigation li {
+    float: left;
+    padding-left: 30px;
+}
+
+.login_area {
+    float: left;
+    position: relative;
+    z-index: 10;
+    max-width: 250px;
+    margin-left: 10px;
+}
+
+.login_area .btn_login {
+    display: block;
+    min-width: 38px;
+    padding: 12px 9px 13px 9px;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #000;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 184px;
+    background: #f1f1f4;
+    border-top: 1px solid #e8e8e7;
+    text-align: center;
+    font-size: 0;
+}
