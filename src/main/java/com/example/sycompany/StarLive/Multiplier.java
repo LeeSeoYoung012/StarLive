@@ -1,4 +1,4 @@
-package com.example.sycompany.demo;
+package com.example.sycompany.StarLive;
 
 public class Multiplier {
 

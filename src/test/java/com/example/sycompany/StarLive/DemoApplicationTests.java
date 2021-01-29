@@ -1,4 +1,4 @@
-package com.example.sycompany.demo;
+package com.example.sycompany.StarLive;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
