@@ -6,20 +6,31 @@ import com.example.sycompany.StarLive.Repository.UserRepository;
 import com.example.sycompany.StarLive.Service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
 public class UserController {
-
     private final UserRepository userRepository;
     private final UserService userService;
     //회원 user_Id에 해당하는 정보를 조회, 아이디 중복 확인
-    @GetMapping("/user/{userId}")
-    public User getUser(@PathVariable String userId){
-        return userRepository.findByUserId(userId);
+
+    @Autowired
+    public UserController(
+            final UserRepository userRepository,
+            final UserService userService) {
+
+        this.userRepository = userRepository;
+        this.userService = userService;
+    }
+    @GetMapping(value = "/user/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getUser(@PathVariable String userId){
+        User user = userRepository.findByUserId(userId);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
     //신규 가입자 추가
     @PostMapping("/user")
