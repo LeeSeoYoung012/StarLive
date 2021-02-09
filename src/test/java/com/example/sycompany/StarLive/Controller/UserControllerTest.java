@@ -4,13 +4,8 @@ import com.example.sycompany.StarLive.DTO.UserDTO;
 
 import com.example.sycompany.StarLive.Entity.User;
 import com.example.sycompany.StarLive.Repository.UserRepository;
-
 import com.example.sycompany.StarLive.Service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.BDDAssumptions;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -106,10 +101,11 @@ class UserControllerTest {
     void postUser() throws Exception {
 
         UserDTO userdto  = new UserDTO();
+        userdto.setId(1L);
         userdto.setUserId("sy");
         userdto.setAddr("hh");
         userdto.setEmail("lsy");
-        userdto.setName("ㅇㅅㅇ");
+        userdto.setName("leeseoyoung");
         userdto.setPhonenum("01094796540");
         userdto.setPassword("123");
         User user=new User(userdto);
@@ -133,8 +129,8 @@ class UserControllerTest {
         UserDTO resuserdto = objectMapper.readValue(rescontent, UserDTO.class);
         assertEquals(resuserdto.getUserId(),"sy");
         assertEquals(resuserdto.getId(),1L);
-        assertEquals(resuserdto.getPassword(),"1234");
-        assertEquals(resuserdto.getName(),"ㅇㅅㅇ");
+        assertEquals(resuserdto.getPassword(),"123");
+        assertEquals(resuserdto.getName(),"leeseoyoung");
         assertEquals(userdto.getAddr(),"hh");
         assertEquals(userdto.getEmail(),"lsy");
         assertEquals(userdto.getPhonenum(),"01094796540");

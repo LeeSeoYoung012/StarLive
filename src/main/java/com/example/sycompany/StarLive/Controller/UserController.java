@@ -27,16 +27,19 @@ public class UserController {
         this.userRepository = userRepository;
         this.userService = userService;
     }
+
     @GetMapping(value = "/user/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable String userId){
         User user = userRepository.findByUserId(userId);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
+
     //신규 가입자 추가
-    @PostMapping("/user")
-    public User postUser(@RequestBody UserDTO userDTO){
+    @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> postUser(@RequestBody UserDTO userDTO){
         User user = new User(userDTO);
-        return userRepository.save(user);
+        userRepository.save(user);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     //신규 가입자 정보 수정
