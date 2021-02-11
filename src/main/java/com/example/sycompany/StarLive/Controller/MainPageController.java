@@ -5,10 +5,8 @@ import com.example.sycompany.StarLive.DTO.ChannelVisitCountDTO;
 import com.example.sycompany.StarLive.DTO.UserSubscribeListDTO;
 import com.example.sycompany.StarLive.Entity.*;
 import com.example.sycompany.StarLive.Repository.ChannelRepository;
-import com.example.sycompany.StarLive.Repository.UserRepository;
 import com.example.sycompany.StarLive.Repository.UserSubscribeListRepsitory;
 import com.example.sycompany.StarLive.Repository.VideoRepository;
-import com.example.sycompany.StarLive.Service.MainPageService;
 import com.example.sycompany.StarLive.Service.ViewCountControlService;
 import com.example.sycompany.StarLive.Service.ViewSortService;
 import lombok.NoArgsConstructor;
@@ -17,10 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @NoArgsConstructor
@@ -56,7 +52,7 @@ public class MainPageController {
     @PutMapping("/home/chart/channel/{channelId}")
     public Long putChannelVisitCount(@PathVariable Long channelId){
         Channel channel = channelRepository.findByChannelId(channelId);
-        ChannelVisitCountDTO channelVisitCountDTO= viewCountControlService.ChannelVisitCountIncrease(channel);
+        ChannelVisitCountDTO channelVisitCountDTO= viewCountControlService.channelVisitCountIncrease(channel);
         return viewCountControlService.updateChannelVisitCount(channelVisitCountDTO);
     }
 

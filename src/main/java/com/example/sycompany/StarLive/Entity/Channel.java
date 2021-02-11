@@ -3,6 +3,7 @@ package com.example.sycompany.StarLive.Entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import java.time.LocalDateTime;
 
 @Entity
 public class Channel {
@@ -13,8 +14,6 @@ public class Channel {
     @JoinColumn(name= "video_id")
     private Long videoId;
 
-    @JoinColumn(name ="comments_id")
-    private Long commentsId;
 
     private String channelPicture;
 
@@ -23,6 +22,8 @@ public class Channel {
     private Long memberCount;
 
     private String channelName;
+
+    private LocalDateTime createAt;
 
 
 }

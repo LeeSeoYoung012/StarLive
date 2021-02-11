@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import java.time.LocalDateTime;
 
 
 @Setter
@@ -29,6 +30,8 @@ public class ChannelDTO {
     private Long memberCount;
 
     private String channelName;
+
+    private LocalDateTime createdAt;
 
 
     public void makeEntityToDTO(Channel channel){

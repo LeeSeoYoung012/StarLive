@@ -3,6 +3,7 @@ package com.example.sycompany.StarLive.Entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
@@ -20,9 +21,15 @@ public class Comments {
 
     private Long likesCount;
 
+    @ManyToOne
+    @JoinColumn(name = "channel_id")
+    private Channel channel;
+
+
     private LocalDateTime commentedAt;
 
     private Long parentCommentId;
 
+    private String starOrFan;
 
 }

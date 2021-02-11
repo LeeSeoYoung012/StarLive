@@ -107,4 +107,74 @@ Collections.sort(videos, (video1, video2) -> {
         return channels;
     }
 
+    // 채널 구독 멤버 순으로 정렬을 해준다.
+    public List<Channel> compareChannelMemberCount(List<Channel>channels){
+        Collections.sort(channels,(channel1, channel2)->{
+
+
+            ChannelDTO channelDTO1 = new ChannelDTO();
+            channelDTO1.makeEntityToDTO(channel1);
+            ChannelDTO channelDTO2 = new ChannelDTO();
+            channelDTO2.makeEntityToDTO(channel2);
+
+            if(channelDTO1.getMemberCount()>channelDTO2.getMemberCount()) return -1;
+            else if(channelDTO1==channelDTO2){
+                return 0;
+            }
+            else
+                return 1;
+
+        });
+        return channels;
+    }
+
+
+    public List<Channel> compareChannelByCreatedAt(List<Channel>channels){
+        Collections.sort(channels,(channel1, channel2)->{
+            ChannelDTO channelDTO1 = new ChannelDTO();
+            channelDTO1.makeEntityToDTO(channel1);
+            ChannelDTO channelDTO2 = new ChannelDTO();
+            channelDTO2.makeEntityToDTO(channel2);
+            LocalDateTime date1 = channelDTO1.getCreatedAt();
+            LocalDateTime date2 = channelDTO2.getCreatedAt();
+            if(date1.isBefore(date2)){
+                return -1;
+            }
+            else if(date1.isEqual(date2)){
+                return 0;
+            }
+            else{
+                return 1;
+            }
+        });
+        return channels;
+    }
+
+    public List<Channel> compareChannelByABC(List<Channel>channels){
+        Collections.sort(channels,(channel1, channel2)->{
+
+            ChannelDTO channelDTO1 = new ChannelDTO();
+            channelDTO1.makeEntityToDTO(channel1);
+            ChannelDTO channelDTO2 = new ChannelDTO();
+            channelDTO2.makeEntityToDTO(channel2);
+
+            String channelName1 = channelDTO1.getChannelName();
+            String channelName2 = channelDTO2.getChannelName();
+
+            if(channelName1.compareTo(channelName2)<0){
+                return -1;
+            }
+            else if(channelName1.compareTo(channelName2)>0){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+
+
+        });
+
+        return channels;
+    }
+
 }
