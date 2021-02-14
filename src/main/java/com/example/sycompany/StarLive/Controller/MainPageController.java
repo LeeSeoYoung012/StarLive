@@ -59,7 +59,7 @@ public class MainPageController {
    //최근에 올린 영상 순서대로 출력
     @GetMapping("/home/new")
     public List<Video> getVideosOrderByCreatedAt(){
-        return videoRepository.findAllByAndOrderByCreatedAt();
+        return videoRepository.findAllByOrderByCreatedAt();
     }
 
     //내가 구독한 채널 출력
@@ -69,14 +69,14 @@ public class MainPageController {
        List<UserSubscribeList> subscribeLists =userSubscribeListRepsitory.findByUserNumEquals(user_num);
        UserSubscribeList userSubscribeList = new UserSubscribeList();
        UserSubscribeListDTO userSubscribeListDTO= new UserSubscribeListDTO();
-       Channel channel = new Channel();
+       Channel channel;
        ChannelDTO channelDTO = new ChannelDTO();
        List<Long> channelList = new ArrayList<>();
        for(int i=0; i<subscribeLists.size(); i++){
            userSubscribeList = subscribeLists.get(i);
            userSubscribeListDTO.makeEntityToDTO(userSubscribeList);
            channel = userSubscribeListDTO.getChannel();
-           channelDTO.makeEntityToDTO(channel);
+           channelDTO= channel.makeEntityToDTO(channel);
            channelList.add(channelDTO.getChannelId());
        }
             return channelList;

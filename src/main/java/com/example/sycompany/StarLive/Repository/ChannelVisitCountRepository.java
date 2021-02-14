@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ChannelVisitCountRepository extends JpaRepository<ChannelVisitCount,Long> {
-    List<ChannelVisitCount> findAllByChannelIdAndChannelVisitDateBetween(Long channelId,LocalDateTime start, LocalDateTime end);
+    List<ChannelVisitCount> findAllByChannelAndChannelVisitDateBetween(Channel channel,LocalDate start, LocalDate end);
     List<ChannelVisitCount> findByChannel(Channel channel);
     ChannelVisitCount findByChannelVisitDate(LocalDate localDate);
 

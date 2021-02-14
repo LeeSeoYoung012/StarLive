@@ -1,7 +1,10 @@
 package com.example.sycompany.StarLive.DTO;
 
 
+import com.example.sycompany.StarLive.Entity.Channel;
+import com.example.sycompany.StarLive.Entity.Comments;
 import com.example.sycompany.StarLive.Entity.Video;
+import com.example.sycompany.StarLive.Entity.VideoFile;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
@@ -12,14 +15,13 @@ import java.time.LocalDateTime;
 @Getter
 public class VideoDTO {
    private Long videoId;
-   private Long channelId;
+   private Channel channel;
    private String title;
    private LocalDateTime createdAt;
    private Long likeCount;
    private Long videoViewsId;
-   private Long commentsId;
    private Long chattingId;
-   private Long fileId;
+   private VideoFile videoFile;
 
    public void makeEntityToDTO(Video video){
 

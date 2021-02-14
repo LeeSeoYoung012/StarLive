@@ -1,18 +1,22 @@
 package com.example.sycompany.StarLive.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import com.example.sycompany.StarLive.DTO.ChannelDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Entity
+@Getter
 public class Channel {
 
     @Id
     private Long channelId;
-
-    @JoinColumn(name= "video_id")
-    private Long videoId;
 
 
     private String channelPicture;
@@ -24,6 +28,21 @@ public class Channel {
     private String channelName;
 
     private LocalDateTime createAt;
+
+    public Channel(ChannelDTO channelDTO){
+       this.channelId = channelDTO.getChannelId();
+       this.channelPicture = channelDTO.getChannelPicture();
+       this.likesCount = channelDTO.getLikesCount();
+       this.memberCount = channelDTO.getMemberCount();
+       this.channelName = channelDTO.getChannelName();
+       this.createAt =channelDTO.getCreatedAt();
+    }
+
+
+    public ChannelDTO makeEntityToDTO(Channel channel){
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(channel,ChannelDTO.class);
+    }
 
 
 }

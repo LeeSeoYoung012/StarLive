@@ -1,19 +1,24 @@
 package com.example.sycompany.StarLive.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import com.example.sycompany.StarLive.DTO.VideoDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Entity
+@Getter
 public class Video  {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long videoId;
 
+    @ManyToOne
     @JoinColumn(name = "channel_id")
-    private Long channelId;
+    private Channel channel;
 
     private String title;
 
@@ -21,18 +26,22 @@ public class Video  {
 
     private Long likeCount;
 
-    @ManyToOne
-    @JoinColumn(name = "comments_id")
-    private Comments commentsId;
-
     private Long chattingId;
 
     @ManyToOne
     @JoinColumn(name="file_id")
-    private VideoFile fileId;
+    private VideoFile videoFile;
 
 
-
+  public Video(VideoDTO videoDTO){
+     this.videoId =  videoDTO.getVideoId();
+     this.channel = videoDTO.getChannel();
+     this.title = videoDTO.getTitle();
+     this.createdAt = videoDTO.getCreatedAt();
+     this.likeCount = videoDTO.getLikeCount();
+     this.chattingId = videoDTO.getChattingId();
+     this.videoFile = videoDTO.getVideoFile();
+   }
 
 
 }

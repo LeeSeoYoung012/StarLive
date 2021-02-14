@@ -11,11 +11,14 @@ import com.example.sycompany.StarLive.Entity.VideoViewCount;
 import com.example.sycompany.StarLive.Repository.ChannelVisitCountRepository;
 import com.example.sycompany.StarLive.Repository.VideoViewsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class ViewSortService{
 final VideoViewsRepository videoViewsRepository;
@@ -30,27 +33,27 @@ Collections.sort(videos, (video1, video2) -> {
     VideoDTO videoDTO2 = new VideoDTO();
     videoDTO2.makeEntityToDTO(video2);
 
-    LocalDateTime now = LocalDateTime.now();
-    LocalDateTime before = now.minusDays(days);
+    LocalDate now = LocalDate.now();
+    LocalDate before = now.minusDays(days);
 
-    List<VideoViewCount> video1ViewCountlist = videoViewsRepository.findAllByVideoIdAndViewsDateBetweeen
-            (videoDTO1.getVideoId(),before,now);
+    List<VideoViewCount> video1ViewCountlist = videoViewsRepository.findByVideoAndViewsDateBetween
+            (new Video(videoDTO1),before,now);
 
     Long video1ViewCount =0L;
     for(int i=0; i<video1ViewCountlist.size(); i++){
         VideoViewCount viewcount = video1ViewCountlist.get(i);
-        VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO();
-        videoViewCountDTO.makeEntityToDTO(viewcount);
+        VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO(viewcount);
+
         video1ViewCount += videoViewCountDTO.getViewsCount();
     }
-   List<VideoViewCount> video2ViewCountlist = videoViewsRepository.findAllByVideoIdAndViewsDateBetweeen
-            (videoDTO2.getVideoId(),before,now);
+   List<VideoViewCount> video2ViewCountlist = videoViewsRepository.findByVideoAndViewsDateBetween
+            (new Video(videoDTO2),before,now);
 
     Long video2ViewCount = 0L;
     for(int i=0; i<video2ViewCountlist.size(); i++){
         VideoViewCount viewcount = video2ViewCountlist.get(i);
-        VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO();
-        videoViewCountDTO.makeEntityToDTO(viewcount);
+        VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO(viewcount);
+    ;
         video2ViewCount += videoViewCountDTO.getViewsCount();
     }
 
@@ -68,33 +71,33 @@ Collections.sort(videos, (video1, video2) -> {
     {
         Collections.sort(channels,(channel1, channel2)->{
 
-            ChannelDTO channelDTO1 = new ChannelDTO();
-            channelDTO1.makeEntityToDTO(channel1);
-            ChannelDTO channelDTO2 = new ChannelDTO();
-            channelDTO2.makeEntityToDTO(channel2);
+            ChannelDTO channelDTO1;
+            channelDTO1=channel1.makeEntityToDTO(channel1);
+            ChannelDTO channelDTO2;
+            channelDTO2= channel2.makeEntityToDTO(channel2);
 
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime before = now.minusDays(days);
+            LocalDate now = LocalDate.now();
+            LocalDate before = now.minusDays(days);
 
-            List<ChannelVisitCount> channel1VisitCountlist = channelVisitCountRepository.findAllByChannelIdAndChannelVisitDateBetween
-                    (channelDTO1.getChannelId(),before,now);
+            List<ChannelVisitCount> channel1VisitCountlist = channelVisitCountRepository.findAllByChannelAndChannelVisitDateBetween
+                    (new Channel(channelDTO1),before,now);
 
             Long channel1VisitCount =0L;
             for(int i=0; i<channel1VisitCountlist.size(); i++){
                 ChannelVisitCount visitcount = channel1VisitCountlist.get(i);
-                ChannelVisitCountDTO channelVisitCountDTO = new ChannelVisitCountDTO();
-                channelVisitCountDTO.makeEntityToDTO(visitcount);
+                ChannelVisitCountDTO channelVisitCountDTO;
+                channelVisitCountDTO= visitcount.makeEntityToDTO(visitcount);
                 channel1VisitCount += channelVisitCountDTO.getChannelVisitCount();
             }
 
-            List<ChannelVisitCount> channel2VisitCountlist = channelVisitCountRepository.findAllByChannelIdAndChannelVisitDateBetween
-                    (channelDTO2.getChannelId(),before,now);
+            List<ChannelVisitCount> channel2VisitCountlist = channelVisitCountRepository.findAllByChannelAndChannelVisitDateBetween
+                    (new Channel(channelDTO2),before,now);
 
             Long channel2VisitCount =0L;
             for(int i=0; i<channel2VisitCountlist.size(); i++){
                 ChannelVisitCount visitcount = channel2VisitCountlist.get(i);
                 ChannelVisitCountDTO channelVisitCountDTO = new ChannelVisitCountDTO();
-                channelVisitCountDTO.makeEntityToDTO(visitcount);
+                channelVisitCountDTO= visitcount.makeEntityToDTO(visitcount);
                 channel2VisitCount += channelVisitCountDTO.getChannelVisitCount();
             }
 
@@ -113,9 +116,9 @@ Collections.sort(videos, (video1, video2) -> {
 
 
             ChannelDTO channelDTO1 = new ChannelDTO();
-            channelDTO1.makeEntityToDTO(channel1);
+            channelDTO1 = channel1.makeEntityToDTO(channel1);
             ChannelDTO channelDTO2 = new ChannelDTO();
-            channelDTO2.makeEntityToDTO(channel2);
+            channelDTO2 = channel2.makeEntityToDTO(channel2);
 
             if(channelDTO1.getMemberCount()>channelDTO2.getMemberCount()) return -1;
             else if(channelDTO1==channelDTO2){
@@ -132,9 +135,9 @@ Collections.sort(videos, (video1, video2) -> {
     public List<Channel> compareChannelByCreatedAt(List<Channel>channels){
         Collections.sort(channels,(channel1, channel2)->{
             ChannelDTO channelDTO1 = new ChannelDTO();
-            channelDTO1.makeEntityToDTO(channel1);
+            channelDTO1= channel1.makeEntityToDTO(channel1);
             ChannelDTO channelDTO2 = new ChannelDTO();
-            channelDTO2.makeEntityToDTO(channel2);
+            channelDTO2 = channel2.makeEntityToDTO(channel2);
             LocalDateTime date1 = channelDTO1.getCreatedAt();
             LocalDateTime date2 = channelDTO2.getCreatedAt();
             if(date1.isBefore(date2)){
@@ -153,10 +156,10 @@ Collections.sort(videos, (video1, video2) -> {
     public List<Channel> compareChannelByABC(List<Channel>channels){
         Collections.sort(channels,(channel1, channel2)->{
 
-            ChannelDTO channelDTO1 = new ChannelDTO();
-            channelDTO1.makeEntityToDTO(channel1);
-            ChannelDTO channelDTO2 = new ChannelDTO();
-            channelDTO2.makeEntityToDTO(channel2);
+            ChannelDTO channelDTO1;
+            channelDTO1=channel1.makeEntityToDTO(channel1);
+            ChannelDTO channelDTO2;
+            channelDTO2=channel2.makeEntityToDTO(channel2);
 
             String channelName1 = channelDTO1.getChannelName();
             String channelName2 = channelDTO2.getChannelName();

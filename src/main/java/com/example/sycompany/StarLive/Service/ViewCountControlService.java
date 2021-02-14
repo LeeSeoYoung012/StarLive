@@ -9,49 +9,57 @@ import com.example.sycompany.StarLive.Entity.ChannelVisitCount;
 import com.example.sycompany.StarLive.Entity.Video;
 import com.example.sycompany.StarLive.Entity.VideoViewCount;
 import com.example.sycompany.StarLive.Repository.ChannelVisitCountRepository;
+import com.example.sycompany.StarLive.Repository.UserRepository;
 import com.example.sycompany.StarLive.Repository.VideoViewsRepository;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@RequiredArgsConstructor
+@Service
 public class ViewCountControlService {
-    VideoViewsRepository videoViewsRepository;
-    ChannelVisitCountRepository channelVisitCountRepository;
+    final VideoViewsRepository videoViewsRepository;
+    final ChannelVisitCountRepository channelVisitCountRepository;
+
 
     //채널의 조회수 증가
     public ChannelVisitCountDTO channelVisitCountIncrease(Channel channel ){
         LocalDate now = LocalDate.now();
-        ChannelDTO channelDTO = new ChannelDTO();
-        channelDTO.makeEntityToDTO(channel);
         ChannelVisitCount nowvisit =  channelVisitCountRepository.findByChannelVisitDate(now);
-        ChannelVisitCountDTO nowvisitDTO = new ChannelVisitCountDTO();
+
         Long visitcount = 0L;
         if( nowvisit !=null){
-           nowvisitDTO.makeEntityToDTO(nowvisit);
+            ChannelVisitCountDTO nowvisitDTO= new ChannelVisitCountDTO(nowvisit);
            visitcount = nowvisitDTO.getChannelVisitCount();
            nowvisitDTO.setChannelVisitCount(visitcount+1);
+           return nowvisitDTO;
         }
        else{
+            ChannelVisitCountDTO nowvisitDTO = new ChannelVisitCountDTO();
             nowvisitDTO.setChannel(channel);
             nowvisitDTO.setChannelVisitCount(1L);
             nowvisitDTO.setChannelVisitDate(LocalDate.now());
+            return nowvisitDTO;
 
        }
-    return nowvisitDTO;
-
     }
 
     //채널의 전체 조회수 조회
     public Long channelVisitCountTotal(Channel channel){
 
         List<ChannelVisitCount> channelList =  channelVisitCountRepository.findByChannel(channel);
-        ChannelVisitCountDTO channelVisitCountDTO = new ChannelVisitCountDTO();
         ChannelVisitCount channelVisitCount;
         Long totalCount=0L;
         for(int i=0; i<channelList.size(); i++) {
             channelVisitCount = channelList.get(i);
             if (channelVisitCount != null) {
-                channelVisitCountDTO.makeEntityToDTO(channelVisitCount);
+                ChannelVisitCountDTO  channelVisitCountDTO= new ChannelVisitCountDTO(channelVisitCount);
                 totalCount += channelVisitCountDTO.getChannelVisitCount();
             }
         }
@@ -80,23 +88,26 @@ public class ViewCountControlService {
     //비디오 조회수 증가
     public VideoViewCountDTO videoViewCountIncrease(Video video){
         LocalDate now = LocalDate.now();
-        VideoDTO videoDTO = new VideoDTO();
-        videoDTO.makeEntityToDTO(video);
-        VideoViewCount nowview =  videoViewsRepository.findByViewDate(now);
-        VideoViewCountDTO nowviewDTO = new VideoViewCountDTO();
+        VideoViewCount nowview =  videoViewsRepository.findByViewsDate(now);
+       // VideoViewCountDTO nowviewDTO = new VideoViewCountDTO();
+
         Long visitcount = 0L;
         if( nowview !=null){
-            nowviewDTO.makeEntityToDTO(nowview);
+            VideoViewCountDTO nowviewDTO = new VideoViewCountDTO(nowview);
             visitcount = nowviewDTO.getViewsCount();
             nowviewDTO.setViewsCount(visitcount+1);
+            return nowviewDTO;
         }
         else{
-            nowviewDTO.setVideo(video);
-            nowviewDTO.setViewsCount(1L);
-            nowviewDTO.setViewsDate(LocalDate.now());
+            VideoViewCount nowViewIfNull = new VideoViewCount();
+            VideoViewCountDTO nowviewDTOIfNull = new VideoViewCountDTO(nowViewIfNull);
+            nowviewDTOIfNull.setVideo(video);
+            nowviewDTOIfNull.setViewsCount(1L);
+            nowviewDTOIfNull.setViewsDate(LocalDate.now());
+            return nowviewDTOIfNull;
 
         }
-        return nowviewDTO;
+
     }
 
 
@@ -121,13 +132,12 @@ public class ViewCountControlService {
     public Long videoViewCountTotal(Video video){
 
         List<VideoViewCount> videoList =  videoViewsRepository.findByVideo(video);
-        VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO();
         VideoViewCount videoViewCount;
         Long totalCount=0L;
         for(int i=0; i< videoList.size(); i++) {
             videoViewCount =  videoList.get(i);
             if (videoViewCount != null) {
-                videoViewCountDTO.makeEntityToDTO(videoViewCount);
+                VideoViewCountDTO videoViewCountDTO= new VideoViewCountDTO(videoViewCount);
                 totalCount += videoViewCountDTO.getViewsCount();
             }
         }

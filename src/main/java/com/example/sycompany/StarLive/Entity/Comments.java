@@ -1,5 +1,7 @@
 package com.example.sycompany.StarLive.Entity;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -7,7 +9,7 @@ import javax.persistence.ManyToOne;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-
+@NoArgsConstructor
 @Entity
 public class Comments {
 

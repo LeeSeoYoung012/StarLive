@@ -10,8 +10,9 @@ import java.util.List;
 
 public interface VideoViewsRepository extends JpaRepository<VideoViewCount,Long> {
 
-   VideoViewCount findByViewDate(LocalDate date);
+   VideoViewCount findByViewsDate(LocalDate date);
    List<VideoViewCount> findByVideo(Video video);
-   List<VideoViewCount> findAllByVideoIdAndViewsDateBetweeen(Long video_id, LocalDateTime start, LocalDateTime end);
+   List<VideoViewCount> findByVideoAndViewsDateBetween(Video video, LocalDate start, LocalDate end);
+
 
 }

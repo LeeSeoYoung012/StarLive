@@ -17,15 +17,9 @@ public class ChannelDTO {
 
     private Long channelId;
 
-    private Long videoId;
-
-    private Long commentsId;
-
     private String channelPicture;
 
     private Long likesCount;
-
-    private Long channelViewsId;
 
     private Long memberCount;
 
@@ -34,10 +28,6 @@ public class ChannelDTO {
     private LocalDateTime createdAt;
 
 
-    public void makeEntityToDTO(Channel channel){
 
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.map(channel,this);
-    }
 
 }

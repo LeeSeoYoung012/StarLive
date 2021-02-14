@@ -1,11 +1,13 @@
 package com.example.sycompany.StarLive.Entity;
 
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
+@NoArgsConstructor
 @Entity
 public class UserVideo {
 

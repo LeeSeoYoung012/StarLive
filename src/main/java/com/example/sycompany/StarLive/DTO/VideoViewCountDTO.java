@@ -4,6 +4,7 @@ package com.example.sycompany.StarLive.DTO;
 import com.example.sycompany.StarLive.Entity.Video;
 import com.example.sycompany.StarLive.Entity.VideoViewCount;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class VideoViewCountDTO {
 
     private Long viewId;
@@ -20,9 +22,10 @@ public class VideoViewCountDTO {
     private Video video;
 
 
-    public void makeEntityToDTO(VideoViewCount videoviewCount){
-
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.map(videoviewCount,this);
+    public VideoViewCountDTO (VideoViewCount videoViewCount){
+        this.viewId = videoViewCount.getViewId();
+        this.viewsDate = videoViewCount.getViewsDate();
+        this.viewsCount = videoViewCount.getViewsCount();
+        this.video = videoViewCount.getVideo();
     }
 }
