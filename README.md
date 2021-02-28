@@ -1,5 +1,5 @@
 # StarLive
-- 네이버의 vlive를 벤치마킹하여 tarLive 플랫폼을 개발 했습니다.
+- 네이버의 vlive를 벤치마킹하여 StarLive 플랫폼을 개발 했습니다.
 
 ## DB 구조
 - ERD 
