@@ -3,12 +3,13 @@
 
 ## 사용 기술
 - SpringBoot, Gradle, Jpa, Mysql ,Java8, restApi, Mockito, Junit5
-- 
+
 ## 프로젝트 목표 
-- SpringBoot를 이용하여 내가 좋아하는 서비스를 MVC 패턴에 따라 만들어보면서 어떻게 동작하는지 배우는 경험 쌓기 
+- SpringBoot를 이용하여 내가 좋아하는 서비스를 MVC 패턴에 따라 만들어 보면서 어떻게 동작하는지 배우는 경험 쌓기 
 - Mock을 이용하여 TDD (테스트 주도 개발) 경험하기
 
-## 
+## 일부 테스트 코드 실행 결과
+
 ## 카카오 오븐 Image 
 - 더 자세히 보기 : [카카오 오븐 URL](https://ovenapp.io/view/giiGddb80SL29dAwe6WhgRlt4BebNdpA/0QO6X) 
 - 전체사진
