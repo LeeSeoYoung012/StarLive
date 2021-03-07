@@ -243,10 +243,6 @@ class ViewCountControlServiceTest {
         //Long updateId = updateChannelVisitCount(channelVisitCountDTO);
     }
 
-    @Test
-    void updateChannelVisitCountIfNull(){
-
-    }
 
     @Test
     void videoViewCountIncrease() {
@@ -285,7 +281,7 @@ class ViewCountControlServiceTest {
     void getReturnOfUpdateVideoViewCount(){
         VideoViewCountDTO videoViewCountDTO = getVideoViewCountDTOExample();
         Long id = videoViewCountDTO.getViewId();
-        Mockito.when(videoViewsRepository.findById(id)).thenReturn(null); //에러
+        Mockito.when(videoViewsRepository.findById(id)).thenReturn(null); 
         Mockito.when(videoViewCount.update(videoViewCountDTO)).thenReturn(1);
         Long res = viewCountControlService.updateVideoViewCount(videoViewCountDTO);
         assertEquals(res,videoViewCountDTO.getViewId());
