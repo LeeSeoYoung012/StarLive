@@ -6,7 +6,7 @@ import com.example.sycompany.StarLive.Entity.UserSubscribeList;
 import com.example.sycompany.StarLive.Entity.Video;
 import lombok.Getter;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
+
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,12 +19,12 @@ public class UserSubscribeListDTO {
     private Channel channel;
     private Long userNum;
 
-    public void makeEntityToDTO(UserSubscribeList userSubscribeList){
 
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.map(userSubscribeList,this);
+    public UserSubscribeListDTO(UserSubscribeList userSubscribeList){
+        this.id = userSubscribeList.getId();
+        this.channel = userSubscribeList.getChannel();
+        this.userNum = userSubscribeList.getUserNum();
     }
-
 
 
 }

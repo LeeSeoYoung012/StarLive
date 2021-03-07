@@ -1,58 +1,64 @@
 package com.example.sycompany.StarLive.Entity;
 
 import com.example.sycompany.StarLive.DTO.UserDTO;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor //기본생성자 생성
 @Entity
+@Data
 @Getter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
-    private String userId;
-
-    @Column(nullable = false)
+    private String userName;
     private String password;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
     private String email;
+    private String role;
+    private String provider;
+    private String providerId;
 
-    @Column(nullable = false)
-    private String addr;
 
-    @Column(nullable = false)
-    private String phonenum;
+    @CreationTimestamp
+    private Timestamp createDate;
 
+    @Builder //?
+    public User(String userName,String password,String email,String role,String provider, String providerId,Timestamp createDate) {
+        //this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.createDate = createDate;
+    }
 
     public User(UserDTO userDTO){
         this.id = userDTO.getId();
-        this.userId = userDTO.getUserId();
+        this.userName = userDTO.getUserName();
         this.password = userDTO.getPassword();
-        this.name = userDTO.getName();
         this.email = userDTO.getEmail();
-        this.addr = userDTO.getAddr();
-        this.phonenum = userDTO.getPhonenum();
+
+
 
     }
 
     public void update(UserDTO userDTO){
         this.id = userDTO.getId();
-        this.userId = userDTO.getUserId();
+        this.userName = userDTO.getUserName();
         this.password = userDTO.getPassword();
-        this.name = userDTO.getName();
         this.email = userDTO.getEmail();
-        this.addr = userDTO.getAddr();
-        this.phonenum = userDTO.getPhonenum();
+
     }
 
 }

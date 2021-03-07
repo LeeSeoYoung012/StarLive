@@ -53,7 +53,4 @@ public class VisitController {
         return viewCountControlService.videoViewCountTotal(video);
     }
 
-
-
-
 }

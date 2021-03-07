@@ -36,28 +36,22 @@ class UserRepositoryTest {
     void findByUserIdTest() {
 
         MockitoAnnotations.openMocks(this);
-        Mockito.when(userRepository.findByUserId("lsy")).thenReturn(TestUserEntity());
+        Mockito.when(userRepository.findByUserName("lsy")).thenReturn(TestUserEntity());
        // User user = userRepository.findByUserId("lsy"); //Test를 통해서 JPA 를 통해 db 조회가 잘 안되는 것을 확인
-        User actual = userRepository.findByUserId("lsy");
+        User actual = userRepository.findByUserName("lsy");
         assertEquals(actual.getId(), 1);
         assertEquals(actual.getPassword(), "1234");
-        assertEquals(actual.getUserId(),"lsy");
-        assertEquals(actual.getAddr(),"aa");
-        assertEquals(actual.getName(),"이서영");
-        assertEquals(actual.getEmail(), "nn");
-        assertEquals(actual.getPhonenum(),"01094796540");
-        Mockito.verify(userRepository).findByUserId("lsy"); //findByUserId가 불렸는지 검증
+  assertEquals(actual.getEmail(), "nn");
+
+        Mockito.verify(userRepository).findByUserName("lsy"); //findByUserId가 불렸는지 검증
     }
 
     private User TestUserEntity(){
         UserDTO userDTO = new UserDTO();
         userDTO.setId(1L);
         userDTO.setPassword("1234");
-        userDTO.setUserId("lsy");
-        userDTO.setAddr("aa");
-        userDTO.setName("이서영");
+        userDTO.setUserName("lsy");
         userDTO.setEmail("nn");
-        userDTO.setPhonenum("01094796540");
         User user =  new User(userDTO);
         return user;
     }

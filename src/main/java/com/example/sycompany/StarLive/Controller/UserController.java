@@ -29,8 +29,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/user/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@PathVariable String userId){
-        User user = userRepository.findByUserId(userId);
+    public ResponseEntity<User> getUser(@PathVariable String userName){
+        User user = userRepository.findByUserName(userName);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
@@ -51,8 +51,8 @@ public class UserController {
 
     //회원 탈퇴
     @DeleteMapping("/user")
-    public long deleteUser(@RequestBody String userId){
-        User user = userRepository.findByUserId(userId);
+    public long deleteUser(@RequestBody String userName){
+        User user = userRepository.findByUserName(userName);
 
             Long id = user.getId();
             userRepository.deleteById(id);

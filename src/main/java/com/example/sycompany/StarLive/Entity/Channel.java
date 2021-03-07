@@ -3,7 +3,7 @@ package com.example.sycompany.StarLive.Entity;
 import com.example.sycompany.StarLive.DTO.ChannelDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
@@ -39,10 +39,6 @@ public class Channel {
     }
 
 
-    public ChannelDTO makeEntityToDTO(Channel channel){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(channel,ChannelDTO.class);
-    }
 
 
 }

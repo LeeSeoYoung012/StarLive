@@ -18,11 +18,8 @@ class UserServiceTest {
     @Test
     void update() {
         UserDTO userdto = new UserDTO();
-        userdto.setUserId("sy");
-        userdto.setAddr("hh");
         userdto.setEmail("lsy");
         userdto.setName("ㅇㅅㅇ");
-        userdto.setPhonenum("010");
         userdto.setPassword("123");
         Long i = valueOf(1);
         userdto.setId(i);

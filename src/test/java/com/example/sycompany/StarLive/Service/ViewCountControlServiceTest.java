@@ -2,6 +2,7 @@ package com.example.sycompany.StarLive.Service;
 
 import com.example.sycompany.StarLive.DTO.*;
 import com.example.sycompany.StarLive.Entity.*;
+import com.example.sycompany.StarLive.Example.Example;
 import com.example.sycompany.StarLive.Repository.ChannelVisitCountRepository;
 import com.example.sycompany.StarLive.Repository.VideoViewsRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 
 @SpringBootTest
@@ -36,6 +38,8 @@ class ViewCountControlServiceTest {
 
     @InjectMocks
     ViewCountControlService viewCountControlService;
+
+    Example example;
 
     private MockMvc mockMvc;
 
@@ -197,9 +201,11 @@ class ViewCountControlServiceTest {
 
         LocalDate now = LocalDate.now();
         Mockito.when(channelVisitCountRepository.findByChannelVisitDate(now)).thenReturn( new ChannelVisitCount(getChannelVisitCountDTOExample()));
+
         Channel channel = new Channel(getChannelExample());
         ChannelVisitCountDTO nowvisitDTO;
         nowvisitDTO= viewCountControlService.channelVisitCountIncrease(channel);
+
         if(nowvisitDTO !=null) {
             assertEquals(nowvisitDTO.getChannelVisitId(),1L);
             assertEquals(nowvisitDTO.getChannelVisitCount(), 200001L);
@@ -213,8 +219,10 @@ class ViewCountControlServiceTest {
     void TestChannelVisitCountIncreaseIfNull() {
         LocalDate now = LocalDate.now();
         Mockito.when(channelVisitCountRepository.findByChannelVisitDate(now)).thenReturn( null);
+
         Channel channel = new Channel(getChannelExample());
         ChannelVisitCountDTO nowvisitDTO = viewCountControlService.channelVisitCountIncrease(channel);
+
         assertEquals(nowvisitDTO.getChannelVisitId(),1L);
         assertEquals(nowvisitDTO.getChannelVisitCount(),1L);
         assertEquals(nowvisitDTO.getChannelVisitDate(),now);
@@ -230,6 +238,7 @@ class ViewCountControlServiceTest {
         Long totalCount = viewCountControlService.channelVisitCountTotal(channel);
         assertEquals(totalCount,1190000);
     }
+
 
 
     @Test
@@ -252,8 +261,10 @@ class ViewCountControlServiceTest {
     void videoViewCountIncrease() {
         LocalDate now = LocalDate.now();
         Video video = new Video(getVideoExample());
+
         Mockito.when(videoViewsRepository.findByViewsDate(now)).thenReturn(new VideoViewCount(getVideoViewCountDTOExample()));
         VideoViewCountDTO videoViewCountDTO= viewCountControlService.videoViewCountIncrease(video);
+
         assertEquals(videoViewCountDTO.getVideo().getVideoId(),video.getVideoId());
         assertEquals(videoViewCountDTO.getViewsCount(),30001);
         assertEquals(videoViewCountDTO.getViewId(),1L);
@@ -264,8 +275,10 @@ class ViewCountControlServiceTest {
     void videoViewCountIncreaseIfNull() {
         LocalDate now = LocalDate.now();
         Video video = new Video(getVideoExample());
+
         Mockito.when(videoViewsRepository.findByViewsDate(now)).thenReturn(null);
         VideoViewCountDTO videoViewCountDTO= viewCountControlService.videoViewCountIncrease(video);
+
         assertEquals(videoViewCountDTO.getVideo().getVideoId(),video.getVideoId());
         assertEquals(videoViewCountDTO.getViewsCount(),1L);
         assertEquals(videoViewCountDTO.getViewsDate(),LocalDate.now());
@@ -275,8 +288,10 @@ class ViewCountControlServiceTest {
     void getReturnOfUpdateVideoViewCountIfNull() {
        VideoViewCountDTO videoViewCountDTO = getVideoViewCountDTOExample();
        videoViewCountDTO.setViewId(null);
+
         VideoViewCount videoViewCount = new VideoViewCount(videoViewCountDTO);
         Mockito.when(videoViewsRepository.save(videoViewCount)).thenReturn(videoViewCount);
+
         Long res = viewCountControlService.updateVideoViewCount(videoViewCountDTO);
         assertEquals(res,-1L);
     }
@@ -285,8 +300,12 @@ class ViewCountControlServiceTest {
     void getReturnOfUpdateVideoViewCount(){
         VideoViewCountDTO videoViewCountDTO = getVideoViewCountDTOExample();
         Long id = videoViewCountDTO.getViewId();
-        Mockito.when(videoViewsRepository.findById(id)).thenReturn(null); //에러
+
+        VideoViewCount videoViewCount = mock(VideoViewCount.class);
+
+        Mockito.when(videoViewsRepository.findById(id)).thenReturn(java.util.Optional.of(videoViewCount)); //에러에러
         Mockito.when(videoViewCount.update(videoViewCountDTO)).thenReturn(1);
+
         Long res = viewCountControlService.updateVideoViewCount(videoViewCountDTO);
         assertEquals(res,videoViewCountDTO.getViewId());
     }
@@ -294,9 +313,12 @@ class ViewCountControlServiceTest {
     @Test
     void videoViewCountTotal() {
         Video video =  new Video(getVideoExample());
+
         Mockito.when(videoViewsRepository.findByVideo(video)).thenReturn(getVideoViewCountListExample(getVideoExample()));
+
         Long totalCount = 0L;
         totalCount = viewCountControlService.videoViewCountTotal(video);
+
         assertEquals(totalCount,710000);
     }
 
@@ -304,10 +326,13 @@ class ViewCountControlServiceTest {
     void severalVideosViewCountTotal() {
         VideoDTO videoDTO1 = getVideoExample();
         VideoDTO videoDTO2 = getAnotherVideoExample();
+
         Video video1 = new Video(videoDTO1 );
         Video video2 = new Video(videoDTO2);
+
         Mockito.when(videoViewsRepository.findByVideo(video1)).thenReturn(getVideoViewCountListExample(videoDTO1));
         Mockito.when(videoViewsRepository.findByVideo(video2)).thenReturn(getVideoViewCountListExample(videoDTO2));
+
         Long res = viewCountControlService.severalVideosViewCountTotal(getVideoListExample(video1,video2));
        assertEquals(res,1420000 );
     }

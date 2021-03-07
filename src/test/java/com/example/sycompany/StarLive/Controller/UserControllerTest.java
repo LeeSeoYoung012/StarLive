@@ -63,11 +63,8 @@ class UserControllerTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(1L);
         userDTO.setPassword("1234");
-        userDTO.setUserId("sy");
-        userDTO.setAddr("aa");
         userDTO.setName("이서영");
         userDTO.setEmail("nn");
-        userDTO.setPhonenum("01094796540");
         User user =  new User(userDTO);
         return user;
     }
@@ -76,7 +73,7 @@ class UserControllerTest {
 
     @Test
     public void getUserResultMatch() throws Exception {
-        Mockito.when(userRepository.findByUserId("sy")).thenReturn( TestUserEntity());
+        Mockito.when(userRepository.findByUserName("sy")).thenReturn( TestUserEntity());
         MvcResult result =
                  (MvcResult) mockMvc.perform(MockMvcRequestBuilders.get("/user/sy")
                          .contentType(MediaType.APPLICATION_JSON))
@@ -88,25 +85,19 @@ class UserControllerTest {
         UserDTO userdto = objectMapper.readValue(content, UserDTO.class);
         System.out.println("JSon Result="+objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(userdto));
 
-        assertEquals(userdto.getUserId(),"sy");
         assertEquals(userdto.getId(),1L);
         assertEquals(userdto.getPassword(),"1234");
         assertEquals(userdto.getName(),"이서영");
-        assertEquals(userdto.getAddr(),"aa");
         assertEquals(userdto.getEmail(),"nn");
-        assertEquals(userdto.getPhonenum(),"01094796540");
      }
 
     @Test
     void postUser() throws Exception {
 
         UserDTO userdto  = new UserDTO();
-        userdto.setId(1L);
-        userdto.setUserId("sy");
-        userdto.setAddr("hh");
+        userdto.setId(1L);;
         userdto.setEmail("lsy");
         userdto.setName("leeseoyoung");
-        userdto.setPhonenum("01094796540");
         userdto.setPassword("123");
         User user=new User(userdto);
         Mockito.when(userRepository.save(user)).thenReturn(user);
@@ -127,20 +118,11 @@ class UserControllerTest {
         String rescontent = result.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
         UserDTO resuserdto = objectMapper.readValue(rescontent, UserDTO.class);
-        assertEquals(resuserdto.getUserId(),"sy");
         assertEquals(resuserdto.getId(),1L);
         assertEquals(resuserdto.getPassword(),"123");
         assertEquals(resuserdto.getName(),"leeseoyoung");
-        assertEquals(userdto.getAddr(),"hh");
         assertEquals(userdto.getEmail(),"lsy");
-        assertEquals(userdto.getPhonenum(),"01094796540");
     }
 
-    @Test
-    void putUser() {
-    }
 
-    @Test
-    void deleteUser() {
-    }
 }

@@ -4,7 +4,7 @@ import com.example.sycompany.StarLive.DTO.ChannelVisitCountDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.modelmapper.ModelMapper;
+
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -46,10 +46,6 @@ public class ChannelVisitCount {
         return channelVisitCountDTO;
     }
 
-    public ChannelVisitCountDTO makeEntityToDTO(ChannelVisitCount channelVisitCount){
 
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(channelVisitCount,ChannelVisitCountDTO.class);
-    }
 
 }

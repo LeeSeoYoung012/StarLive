@@ -13,7 +13,7 @@ import com.example.sycompany.StarLive.Repository.UserRepository;
 import com.example.sycompany.StarLive.Repository.VideoViewsRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -55,6 +55,7 @@ public class ViewCountControlService {
 
         List<ChannelVisitCount> channelList =  channelVisitCountRepository.findByChannel(channel);
         ChannelVisitCount channelVisitCount;
+
         Long totalCount=0L;
         for(int i=0; i<channelList.size(); i++) {
             channelVisitCount = channelList.get(i);
