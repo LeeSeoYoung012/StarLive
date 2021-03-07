@@ -10,6 +10,14 @@
 
 ## 일부 테스트 코드 실행 결과
 
+- 채널의 조회수 증가시키는 서비스 테스트 코드 실행 -> [코드]()
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/60209292/110230511-d310b500-7f54-11eb-9d85-42f8396ede07.gif)
+
+- 비디오의 조회수 증가시키는 서비스 테스트 코드 실행
+- 
+
+- 1주단위로 높은 조회수 순 비디오 정렬 서비스
+
 ## 카카오 오븐 Image 
 - 더 자세히 보기 : [카카오 오븐 URL](https://ovenapp.io/view/giiGddb80SL29dAwe6WhgRlt4BebNdpA/0QO6X) 
 - 전체사진
