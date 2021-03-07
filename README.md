@@ -7,16 +7,19 @@
 ## 프로젝트 목표 
 - SpringBoot를 이용하여 내가 좋아하는 서비스를 MVC 패턴에 따라 만들어 보면서 어떻게 동작하는지 배우는 경험 쌓기 
 - Mock을 이용하여 TDD (테스트 주도 개발) 경험하기
+- SpringSecurity와 OAuth 를 이용하여 구글 로그인 구현하기
 
 ## 일부 테스트 코드 실행 결과
 
-- 채널의 조회수 증가시키는 서비스 테스트 코드 실행 -> [코드]()
+- 채널의 조회수 증가시키는 서비스 테스트 코드 실행 -> [코드](https://github.com/LeeSeoYoung012/StarLive/blob/master/src/test/java/com/example/sycompany/StarLive/Service/ViewCountControlServiceTest.java)
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/60209292/110230511-d310b500-7f54-11eb-9d85-42f8396ede07.gif)
 
-- 비디오의 조회수 증가시키는 서비스 테스트 코드 실행
-- 
+- 비디오의 조회수 증가시키는 서비스 테스트 코드 실행 -> [코드](https://github.com/LeeSeoYoung012/StarLive/blob/master/src/test/java/com/example/sycompany/StarLive/Service/ViewCountControlServiceTest.java)
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/60209292/110231417-fd657100-7f5a-11eb-8f22-bf11ae5adae8.gif)
 
-- 1주단위로 높은 조회수 순 비디오 정렬 서비스
+- 1주동안 총 조회수가 높았던 순으로 비디오 정렬하는 서비스 테스트 코드 실행 -> [코드](https://github.com/LeeSeoYoung012/StarLive/blob/master/src/main/java/com/example/sycompany/StarLive/Service/ViewSortService.java)
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/60209292/110231589-f9861e80-7f5b-11eb-92b1-a07e14c0f66d.gif)
+
 
 ## 카카오 오븐 Image 
 - 더 자세히 보기 : [카카오 오븐 URL](https://ovenapp.io/view/giiGddb80SL29dAwe6WhgRlt4BebNdpA/0QO6X) 
