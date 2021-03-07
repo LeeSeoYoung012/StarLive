@@ -24,3 +24,11 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Start MySQL
+      uses: samin/mysql-action@v1.3
+      with: 
+       mysql database: 'starlive'
+       mysql user: 'root' 
+       mysql password: '1234' 
+
+      
