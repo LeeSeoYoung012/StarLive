@@ -6,7 +6,7 @@
 
 ### :bulb: 프로젝트 목표 
 - SpringBoot를 이용하여 내가 좋아하는 서비스를 MVC 패턴에 따라 만들어 보면서 어떻게 동작하는지 배우는 경험 쌓기 
-- Mock을 이용하여 TDD (테스트 주도 개발) 경험하기
+- Mock을 이용하여 Unit Test (단위 테스트) 경험하기
 - SpringSecurity와 OAuth 를 이용하여 구글 로그인 구현하기
 
 ### :bulb: 일부 테스트 코드 실행 결과
