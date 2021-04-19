@@ -39,6 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class UserControllerTest {
 
+    @InjectMocks
     UserController userController;
 
     @Mock
@@ -55,7 +56,6 @@ class UserControllerTest {
     @BeforeEach  //테스트 전 선작업
     public void setUp() throws Exception{
         MockitoAnnotations.openMocks(this);
-        userController = new UserController(userRepository, userService);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 

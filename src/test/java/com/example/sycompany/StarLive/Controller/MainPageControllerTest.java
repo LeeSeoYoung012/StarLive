@@ -82,9 +82,8 @@ class MainPageControllerTest<ViewSortServiceTest> {
     private ObjectMapper objectMapper;
 
     @BeforeEach  //테스트 전 선작업
-    private void setUp() throws Exception{
+    public void setUp() throws Exception{
         MockitoAnnotations.openMocks(this);
-       mainPageController = new MainPageController(videoRepository, channelRepository, viewCountControlService,viewSortService,userSubscribeListRepsitory);
        mockMvc = MockMvcBuilders.standaloneSetup(mainPageController).build();
 
     }
@@ -136,10 +135,11 @@ class MainPageControllerTest<ViewSortServiceTest> {
 
         compareVideoViewCountMock(videoList,days);
 
+        Mockito.when(viewSortService.compareVideoViewCount(videoList,days)).thenReturn(videoList);
         int videoListSize = videoList.size();
 
         MvcResult result =
-                (MvcResult) mockMvc.perform(MockMvcRequestBuilders.get("/home/chart/video/{days}")
+                (MvcResult) mockMvc.perform(MockMvcRequestBuilders.get("/home/chart/video/1")
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect( status().isOk())
                         .andDo(print())
@@ -149,10 +149,9 @@ class MainPageControllerTest<ViewSortServiceTest> {
         ObjectMapper objectMapper = new ObjectMapper();
 
         List<Video> sortedVideos= objectMapper.readValue(content, new TypeReference<List<Video>>(){});
-        System.out.println("JSon Result="+objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(sortedVideos));
 
         for(int i=0; i<sortedVideos.size(); i++){
-            assertEquals(sortedVideos.get(i).getVideoId(),videoListSize-i);
+            assertEquals(sortedVideos.get(i).getVideoId(),i);
         }
     }
 

@@ -23,14 +23,18 @@ ViewSortService viewSortService;
 
     @GetMapping("/channels")
     public List<Channel>getChannelListByCreatedAt(@RequestParam("order") String type){
-            List<Channel>channels = channelRepository.findAll();
-            if(type.equals("latest")){
+
+        List<Channel>channels = channelRepository.findAll();
+
+        if(type.equals("latest")){
                 return viewSortService.compareChannelByCreatedAt(channels);
             }
-            else if(type.equals("abc")){
+
+        else if(type.equals("abc")){
                 return viewSortService.compareChannelByABC(channels);
             }
-            else{
+
+        else{
                 return viewSortService.compareChannelMemberCount(channels);
             }
     }

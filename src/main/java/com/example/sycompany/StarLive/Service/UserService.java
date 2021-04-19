@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+
     @Transactional
     public Long update(Long id, UserDTO userDTO ){
         User user = userRepository.findById(id).orElseThrow(

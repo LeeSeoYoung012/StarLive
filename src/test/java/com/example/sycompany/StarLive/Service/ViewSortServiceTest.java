@@ -165,15 +165,16 @@ class ViewSortServiceTest {
 
     public void compareVideoViewCountMock(List<Video>videos, int days ){
         Example example = new Example();
+
         LocalDate now = LocalDate.now();
         LocalDate before = now.minusDays(days);
+
         Long viewCount = 10000L;
-        int videoListSize = videos.size();
+
         for (Video video : videos) {
             Mockito.when(videoViewsRepository.findByVideoAndViewsDateBetween(video, before, now)).thenReturn(example.VideoViewCountListExample(video, days, viewCount));
             viewCount++;
         }
-
     }
 
 
@@ -182,10 +183,13 @@ class ViewSortServiceTest {
     void TestCompareDailyVideoViewCount() {
 
         int days =1;
+
         Example example = new Example();
         List<Video> videos = example.VideoListExample();
         compareVideoViewCountMock(videos,days);
+
         List<Video> sortedVideos = viewSortService.compareVideoViewCount(videos,days);
+
         int videoListSize = videos.size();
         for(int i=0; i<sortedVideos.size(); i++){
            assertEquals(sortedVideos.get(i).getVideoId(),videoListSize-i);

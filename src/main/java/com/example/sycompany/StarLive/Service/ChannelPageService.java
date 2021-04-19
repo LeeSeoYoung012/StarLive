@@ -12,14 +12,20 @@ public class ChannelPageService {
     public Long getTotalChannelVideoLikes(List<Video> videos){
 
         Video video;
+
         Long totalLikes = 0L;
-        for(int i=0; i<videos.size(); i++){
-            video = videos.get(i);
-            if(video!=null){
+
+        for (Video value : videos) {
+
+            video = value;
+
+            if (video != null) {
                 VideoDTO videoDTO = new VideoDTO(video);
                 totalLikes += videoDTO.getLikeCount();
             }
+
         }
+
         return totalLikes;
 
     }

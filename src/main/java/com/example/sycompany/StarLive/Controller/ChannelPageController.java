@@ -24,15 +24,17 @@ public class ChannelPageController {
     ViewCountControlService viewCountControlService;
     ChannelPageService channelPageService;
     CommentsRepository commentsRepository;
+
     @GetMapping("/channel/{channelId}")
     public Long getChannelVideoCount(@PathVariable Long channelId, @RequestParam String infotype){
+
         Channel channel = channelRepository.findByChannelId(channelId);
+
         List<Video> videos= videoRepository.findByChannel(channel);
 
         switch (infotype) {
             case "videoCount":
-                Long count = videoRepository.findVideoCountByChannel(channel);
-                return count;
+                return videoRepository.findVideoCountByChannel(channel);
             case "videoViewCount":
                 return viewCountControlService.severalVideosViewCountTotal(videos);
             case "likes":

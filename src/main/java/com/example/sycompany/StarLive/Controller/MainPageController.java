@@ -37,23 +37,20 @@ public class MainPageController {
 
     @Autowired
     public MainPageController(
-            VideoRepository videoRepository,
-            ChannelRepository channelRepository, ViewCountControlService viewCountControlService, ViewSortService viewSortService,  UserSubscribeListRepsitory userSubscribeListRepsitory) {
+      ViewSortService viewSortService) {
 
-        this.videoRepository = videoRepository;
-        this.channelRepository= channelRepository;
-        this.viewCountControlService = viewCountControlService;
         this.viewSortService = viewSortService;
-        this.userSubscribeListRepsitory = userSubscribeListRepsitory;
+
     }
 
     //일월별 영상 조회수 대로 정렬 출력
     @GetMapping(value = "/home/chart/video/{days}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Video> getVideosOrderByViewCount(@PathVariable int days){
+    public ResponseEntity<List<Video>> getVideosOrderByViewCount(@PathVariable int days){
 
 
         List<Video> videoList = videoRepository.findAll();
-        return viewSortService.compareVideoViewCount(videoList,days);
+        List<Video> newVideoList= viewSortService.compareVideoViewCount(videoList,days);
+        return new ResponseEntity<List<Video>>(newVideoList,HttpStatus.OK);
     }
 
     //일월별 채널 조회수 대로 정렬 출력
@@ -68,8 +65,11 @@ public class MainPageController {
     //채널 클릭시 조회수 증가
     @PutMapping("/home/chart/channel/{channelId}")
     public Long putChannelVisitCount(@PathVariable Long channelId){
+
         Channel channel = channelRepository.findByChannelId(channelId);
+
         ChannelVisitCountDTO channelVisitCountDTO= viewCountControlService.channelVisitCountIncrease(channel);
+
         return viewCountControlService.updateChannelVisitCount(channelVisitCountDTO);
     }
 
@@ -90,13 +90,15 @@ public class MainPageController {
        ChannelDTO channelDTO = new ChannelDTO();
        List<Long> channelList = new ArrayList<>();
 
-       for(int i=0; i<subscribeLists.size(); i++){
-           userSubscribeList = subscribeLists.get(i);
-           userSubscribeListDTO = new UserSubscribeListDTO(userSubscribeList);
-           channel = userSubscribeListDTO.getChannel();
-           channelDTO= new ChannelDTO(channel);
-           channelList.add(channelDTO.getChannelId());
-       }
+        for (UserSubscribeList subscribeList : subscribeLists) {
+            userSubscribeList = subscribeList;
+            userSubscribeListDTO = new UserSubscribeListDTO(userSubscribeList);
+
+            channel = userSubscribeListDTO.getChannel();
+            channelDTO = new ChannelDTO(channel);
+
+            channelList.add(channelDTO.getChannelId());
+        }
             return channelList;
     }
 

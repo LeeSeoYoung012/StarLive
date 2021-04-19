@@ -109,8 +109,10 @@ public class BoardController {
     Comments postComments(@RequestBody CommentsDTO commentsDTO)
     {
      Comments comments = new Comments(commentsDTO);
+
      commentsRepository.save(comments);
      return comments;
+
     }
 
     @PutMapping("/comments")

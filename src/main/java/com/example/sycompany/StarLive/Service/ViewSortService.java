@@ -2,7 +2,6 @@ package com.example.sycompany.StarLive.Service;
 
 import com.example.sycompany.StarLive.DTO.ChannelDTO;
 import com.example.sycompany.StarLive.DTO.ChannelVisitCountDTO;
-import com.example.sycompany.StarLive.DTO.VideoDTO;
 import com.example.sycompany.StarLive.DTO.VideoViewCountDTO;
 import com.example.sycompany.StarLive.Entity.Channel;
 import com.example.sycompany.StarLive.Entity.ChannelVisitCount;
@@ -15,158 +14,157 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ViewSortService{
-final VideoViewsRepository videoViewsRepository;
-final ChannelVisitCountRepository channelVisitCountRepository;
+
+    final VideoViewsRepository videoViewsRepository;
+    final ChannelVisitCountRepository channelVisitCountRepository;
+
+    static final int SWITCH_SET = -1;
+    static final int EQUAL = 0;
+    static final int SWITCH_UNSET = 1;
 
 
-public List<Video> compareVideoViewCount(List<Video> videos, int days)
-    {
-Collections.sort(videos, (video2, video1) -> {
+public List<Video> compareVideoViewCount(List<Video> videos, int days) //비디오 조회수 내림차순 정렬
+{
 
-    VideoDTO videoDTO1 = new VideoDTO(video1);
-    VideoDTO videoDTO2 = new VideoDTO(video2);
+    videos.sort((video2, video1) -> {
 
+        LocalDate now = LocalDate.now();
+        LocalDate before = now.minusDays(days);
 
-    LocalDate now = LocalDate.now();
-    LocalDate before = now.minusDays(days);
+        List<VideoViewCount> video1ViewCountList = videoViewsRepository.findByVideoAndViewsDateBetween
+                (video1, before, now);
 
-    List<VideoViewCount> video1ViewCountlist = videoViewsRepository.findByVideoAndViewsDateBetween
-            (video1,before,now);
+        Long video1ViewCount = 0L;
 
-    Long video1ViewCount =0L;
-    for(int i=0; i<video1ViewCountlist.size(); i++){
-        VideoViewCount viewcount = video1ViewCountlist.get(i);
-        VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO(viewcount);
+        for (VideoViewCount videoViewCount : video1ViewCountList) {
 
-        video1ViewCount += videoViewCountDTO.getViewsCount();
-    }
-   List<VideoViewCount> video2ViewCountlist = videoViewsRepository.findByVideoAndViewsDateBetween
-            (video2,before,now);
+            VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO(videoViewCount);
 
-    Long video2ViewCount = 0L;
-    for(int i=0; i<video2ViewCountlist.size(); i++){
-        VideoViewCount viewcount = video2ViewCountlist.get(i);
-        VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO(viewcount);
-    ;
-        video2ViewCount += videoViewCountDTO.getViewsCount();
-    }
+            video1ViewCount += videoViewCountDTO.getViewsCount();
+        }
 
-    if(video1ViewCount>video2ViewCount) return 1;
-    else if (video1ViewCount.equals(video2ViewCount))
-        return 0;
-    else
-        return -1;
-});
-  return videos;
+        List<VideoViewCount> video2ViewCountList = videoViewsRepository.findByVideoAndViewsDateBetween
+                (video2, before, now);
 
-    }
+        Long video2ViewCount = 0L;
+
+        for (VideoViewCount videoViewCount : video2ViewCountList) {
+
+            VideoViewCountDTO videoViewCountDTO = new VideoViewCountDTO(videoViewCount);
+
+            video2ViewCount += videoViewCountDTO.getViewsCount();
+        }
+
+        if (video1ViewCount > video2ViewCount) return SWITCH_SET;
+        else if (video1ViewCount.equals(video2ViewCount))
+            return EQUAL;
+        else
+            return SWITCH_UNSET;
+    });
+    return videos;
+
+}
 
     public List<Channel> compareChannelVisitCount(List<Channel> channels, int days)
     {
-        Collections.sort(channels,(channel2, channel1)->{
+        channels.sort((channel2, channel1) -> {
 
             ChannelDTO channelDTO1;
-            channelDTO1=new ChannelDTO(channel1);
+            channelDTO1 = new ChannelDTO(channel1);
             ChannelDTO channelDTO2;
-            channelDTO2= new ChannelDTO(channel2);
+            channelDTO2 = new ChannelDTO(channel2);
 
             LocalDate now = LocalDate.now();
             LocalDate before = now.minusDays(days);
 
             List<ChannelVisitCount> channel1VisitCountlist = channelVisitCountRepository.findByChannelAndChannelVisitDateBetween
-                    (channel1,before,now);
+                    (channel1, before, now);
 
-            Long channel1VisitCount =0L;
-            for(int i=0; i<channel1VisitCountlist.size(); i++){
+            Long channel1VisitCount = 0L;
+            for (int i = 0; i < channel1VisitCountlist.size(); i++) {
                 ChannelVisitCount visitcount = channel1VisitCountlist.get(i);
                 ChannelVisitCountDTO channelVisitCountDTO = new ChannelVisitCountDTO(visitcount);
                 channel1VisitCount += channelVisitCountDTO.getChannelVisitCount();
             }
 
             List<ChannelVisitCount> channel2VisitCountlist = channelVisitCountRepository.findByChannelAndChannelVisitDateBetween
-                    (channel2,before,now);
+                    (channel2, before, now);
 
-            Long channel2VisitCount =0L;
-            for(int i=0; i<channel2VisitCountlist.size(); i++){
-                ChannelVisitCount visitcount = channel2VisitCountlist.get(i);
-                ChannelVisitCountDTO channelVisitCountDTO = new ChannelVisitCountDTO(visitcount);
+            Long channel2VisitCount = 0L;
+
+            for (ChannelVisitCount channelVisitCount : channel2VisitCountlist) {
+                ChannelVisitCountDTO channelVisitCountDTO = new ChannelVisitCountDTO(channelVisitCount);
                 channel2VisitCount += channelVisitCountDTO.getChannelVisitCount();
             }
 
-            if(channel1VisitCount>channel2VisitCount) return 1;
-            else if (channel1VisitCount==channel2VisitCount)
-                return 0;
-            else
-                return -1;
+            return channel1VisitCount.compareTo(channel2VisitCount);
         });
         return channels;
     }
 
     // 채널 구독 멤버 순으로 정렬을 해준다.
     public List<Channel> compareChannelMemberCount(List<Channel>channels){
-        Collections.sort(channels,(channel2, channel1)->{
+        channels.sort((channel2, channel1) -> {
 
 
-            ChannelDTO channelDTO1 =  new ChannelDTO(channel1);
+            ChannelDTO channelDTO1 = new ChannelDTO(channel1);
             ChannelDTO channelDTO2 = new ChannelDTO(channel2);
 
-            if(channelDTO1.getMemberCount()<channelDTO2.getMemberCount()) return -1;
-            else if(channelDTO1==channelDTO2){
-                return 0;
+            if (channelDTO1.getMemberCount() < channelDTO2.getMemberCount()){
+                return SWITCH_SET;
             }
-            else
-                return 1;
-
+            else if (channelDTO1 == channelDTO2) {
+                return EQUAL;
+            }
+            else {
+                return SWITCH_UNSET;
+            }
         });
         return channels;
     }
 
 
     public List<Channel> compareChannelByCreatedAt(List<Channel>channels){
-        Collections.sort(channels,(channel2, channel1)->{
+
+    channels.sort((channel2, channel1) -> {
+
             ChannelDTO channelDTO1 = new ChannelDTO(channel1);
             ChannelDTO channelDTO2 = new ChannelDTO(channel2);
+
             LocalDateTime date1 = channelDTO1.getCreatedAt();
             LocalDateTime date2 = channelDTO2.getCreatedAt();
-            if(date1.isBefore(date2)){
-                return -1;
-            }
-            else if(date1.isEqual(date2)){
-                return 0;
-            }
-            else{
-                return 1;
+
+            if (date1.isBefore(date2)) {
+                return SWITCH_SET;
+            } else if (date1.isEqual(date2)) {
+                return EQUAL;
+            } else {
+                return SWITCH_UNSET;
             }
         });
-        return channels;
+
+    return channels;
     }
 
     public List<Channel> compareChannelByABC(List<Channel>channels){
-        Collections.sort(channels,(channel2, channel1)->{
+
+    channels.sort((channel2, channel1) -> {
 
             ChannelDTO channelDTO1;
-            channelDTO1=new ChannelDTO(channel1);
+            channelDTO1 = new ChannelDTO(channel1);
+
             ChannelDTO channelDTO2;
-            channelDTO2=new ChannelDTO(channel2);
+            channelDTO2 = new ChannelDTO(channel2);
 
             String channelName1 = channelDTO1.getChannelName();
             String channelName2 = channelDTO2.getChannelName();
 
-            if(channelName1.compareTo(channelName2)>0){
-                return -1;
-            }
-            else if(channelName1.compareTo(channelName2)<0){
-                return 1;
-            }
-            else{
-                return 0;
-            }
+            return Integer.compare(0, channelName1.compareTo(channelName2));
 
 
         });
