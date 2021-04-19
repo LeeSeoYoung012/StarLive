@@ -9,6 +9,10 @@
 - Mock을 이용하여 Unit Test (단위 테스트) 경험하기
 - SpringSecurity와 OAuth 를 이용하여 구글 로그인 구현하기
 
+### :bulb: 코드 리팩토링 진행 상황
+- 코드 리팩토링1: [For문 대신 ForEach문 변경 & 일반 정수 대신 static final로 정의한 상수 사용하기](https://github.com/LeeSeoYoung012/StarLive/commit/e2bc088fc65edf812edf45b356b5d49a286d8038)
+
+
 ### :bulb: 일부 테스트 코드 실행 결과
 
 - 채널의 조회수 증가시키는 서비스 테스트 코드 실행 -> [코드](https://github.com/LeeSeoYoung012/StarLive/blob/master/src/test/java/com/example/sycompany/StarLive/Service/ViewCountControlServiceTest.java)
